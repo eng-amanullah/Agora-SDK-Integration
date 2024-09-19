@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import io.agora.rtc2.Constants
-import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.RtcEngine
 
 class MainActivity : ComponentActivity() {
+
     private lateinit var agoraEngine: RtcEngine
 
     private val appId = "d57222f7c2b14fd38f7ea9a51eb0afe4" // Replace with your App ID
@@ -25,19 +25,7 @@ class MainActivity : ComponentActivity() {
     // Initialize Agora Engine
     fun initAgoraEngine() {
         try {
-            agoraEngine =
-                RtcEngine.create(applicationContext, appId, object : IRtcEngineEventHandler() {
-                    // Callbacks for Agora events
-                    override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
-                        super.onJoinChannelSuccess(channel, uid, elapsed)
-                        println("Successfully joined channel: $channel with uid: $uid")
-                    }
-
-                    override fun onUserOffline(uid: Int, reason: Int) {
-                        super.onUserOffline(uid, reason)
-                        println("User offline: $uid Reason: $reason")
-                    }
-                })
+            agoraEngine = RtcEngine.create(applicationContext, appId, AgoraEventHandler())
         } catch (e: Exception) {
             e.printStackTrace()
         }
